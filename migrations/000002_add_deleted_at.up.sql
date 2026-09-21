@@ -1,0 +1,5 @@
+ALTER TABLE folders
+ADD COLUMN deleted_at TIMESTAMPTZ;
+
+ALTER TABLE files
+ADD COLUMN deleted_at TIMESTAMPTZ;
