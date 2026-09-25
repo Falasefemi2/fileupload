@@ -11,9 +11,8 @@ import (
 )
 
 func Open(ctx context.Context, databaseURL string) (*sql.DB, error) {
-	// Neon pooler (PgBouncer) doesn't support prepared statements.
-	// Force simple protocol when using pooler to avoid "prepared statement name is already in use" (08P01).
-	// See: https://github.com/jackc/pgx/issues/2137
+	// Neon pooler (PgBouncer transaction mode) doesn't support prepared statements
+	// -> "prepared statement name is already in use" 08P01. Force simple protocol.
 	if strings.Contains(databaseURL, "-pooler.") && !strings.Contains(databaseURL, "default_query_exec_mode") {
 		sep := "?"
 		if strings.Contains(databaseURL, "?") {
